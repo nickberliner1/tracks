@@ -1,25 +1,47 @@
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
+import Grid from './components/Grid';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default class App extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			lightTheme: true,
+		};
+		this.toggleTheme = this.toggleTheme.bind(this);
+	}
+
+    toggleTheme() {
+        this.setState(prevState => ({
+            lightTheme: !prevState.lightTheme
+        }));
+    }
+
+	render() {
+
+		const lightTheme = this.state.lightTheme;
+
+		return (
+			<div className="App">
+				<header className={`App-header-${lightTheme ? 'light' : 'dark'}`}>
+					<button onClick={this.toggleTheme}>
+						Toggle Theme
+					</button>
+					<Grid 
+						lightTheme={lightTheme}
+					/>
+				</header>
+			</div>
+		)
+	}
+  
 }
 
-export default App;
+  //   <div className="App">
+  //     <header className="App-header">
+  //       <Grid
+  //         lightTheme={this.props.lightTheme}
+  //       />
+  //     </header>
+  //   </div>
+  // );
