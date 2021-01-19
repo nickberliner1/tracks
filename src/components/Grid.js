@@ -52,7 +52,6 @@ export default class Grid extends React.Component {
         super(props);
         this.state = {
             columnDefs: [
-                { headerName: 'ID', field: 'id', sortable: true, filter: true },
                 { headerName: 'Type of Goods', field: 'type_of_goods', sortable: true, filter: true },
                 { headerName: 'CO2 Emitted', field: 'total_co2_emitted', sortable: true, filter: true },
                 { headerName: 'Weight', field: 'weight', sortable: true, filter: true },
