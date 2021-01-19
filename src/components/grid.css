@@ -1,3 +1,7 @@
 .ag-root-wrapper {
     border-radius: 15px;
 }
+
+.MuiInput-formControl {
+    margin-bottom: 20px;
+}
