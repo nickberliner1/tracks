@@ -10,7 +10,7 @@ export default class App extends React.Component {
 		this.state = {
 			lightTheme: true,
 		};
-		
+
 		this.toggleTheme = this.toggleTheme.bind(this);
 	}
 
@@ -27,7 +27,7 @@ export default class App extends React.Component {
 		return (
 			<div className="App">
 				<header className={`App-header-${lightTheme ? 'light' : 'dark'}`}>
-					<Button variant="dark" onClick={this.toggleTheme}>
+					<Button variant={lightTheme ? 'dark' : 'primary'} onClick={this.toggleTheme}>
 						Toggle Theme
 					</Button>
 					<Grid 
@@ -39,12 +39,3 @@ export default class App extends React.Component {
 	}
   
 }
-
-  //   <div className="App">
-  //     <header className="App-header">
-  //       <Grid
-  //         lightTheme={this.props.lightTheme}
-  //       />
-  //     </header>
-  //   </div>
-  // );
