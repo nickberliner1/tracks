@@ -2,6 +2,8 @@ import React from 'react';
 import './App.css';
 import Grid from './components/Grid';
 
+import { Button } from 'react-bootstrap';
+
 export default class App extends React.Component {
 	constructor(props) {
 		super(props);
@@ -24,9 +26,9 @@ export default class App extends React.Component {
 		return (
 			<div className="App">
 				<header className={`App-header-${lightTheme ? 'light' : 'dark'}`}>
-					<button onClick={this.toggleTheme}>
+					<Button variant="dark" onClick={this.toggleTheme}>
 						Toggle Theme
-					</button>
+					</Button>
 					<Grid 
 						lightTheme={lightTheme}
 					/>

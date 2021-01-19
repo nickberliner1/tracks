@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { AgGridReact } from 'ag-grid-react';
-// import MyDatePicker from './MyDatePicker';
+// import CarrierInfo from './CarrierInfo';
+import GetDetailsButton from './GetDetailsButton';
 import DateFnsUtils from '@date-io/date-fns';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 
 
 import './grid.css';
+import './carrier-info.css';
+
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine-dark.css';
+import { id } from 'date-fns/locale';
 
 const endTime = new Date();
 const startTime = new Date();
@@ -46,8 +50,19 @@ export default class Grid extends React.Component {
         super(props);
         this.state = {
             columnDefs: [
-                { headerName: 'ID', field: 'id' },
-                { headerName: 'Type of Goods', field: 'type_of_goods' },
+                // { headerName: 'ID', field: 'id' },
+                { 
+                    headerName: 'Type of Goods', 
+                    field: 'type_of_goods',
+                    cellRenderer: 'GetDetailsButton',
+                    cellRenderer: function(params) {
+                        return (
+                            <div className="carrier-container">
+                                <h1>{params.id}</h1>
+                            </div>
+                        )
+                    }
+                },
                 { headerName: 'CO2 Emitted', field: 'total_co2_emitted' },
                 { headerName: 'Weight', field: 'weight' },
                 { 
@@ -63,11 +78,13 @@ export default class Grid extends React.Component {
             startTime: startTime,
             endTime: endTime,
             apiLoaded: false,
-            filtered: false
+            filtered: false,
+            infoModalOpen: false
         };
         this.handleStartTimeChange = this.handleStartTimeChange.bind(this);
         this.handleEndTimeChange = this.handleEndTimeChange.bind(this);
         this.filterData = this.filterData.bind(this);
+        this.handleInfoModal = this.handleInfoModal.bind(this);
     }
 
     // onGridReady = (params) => {
@@ -150,6 +167,12 @@ export default class Grid extends React.Component {
         // }
     }
 
+    handleInfoModal() {
+        this.setState(prevState => ({
+            infoModalOpen: !prevState.infoModalOpen
+        }));
+    }
+
     render() {
 
         const lightTheme = this.props.lightTheme;
@@ -157,13 +180,14 @@ export default class Grid extends React.Component {
         const endTime = this.state.endTime;
         const rowData = this.state.rowData;
         const columnDefs = this.state.columnDefs;
+        const infoModalOpen = this.state.infoModalOpen;
 
         return (
             <div>
-                <div className={`ag-theme-alpine${lightTheme ? '' : '-dark'}`}
-                    style={{ height: '50vh', width: '60vw' }}
+                <div 
+                    className={`ag-theme-alpine${lightTheme ? '' : '-dark'} grid-container`}
                 >
-                    <MuiPickersUtilsProvider 
+                    {/* <MuiPickersUtilsProvider 
                         utils={DateFnsUtils}
                     >
                         <KeyboardDatePicker
@@ -179,7 +203,7 @@ export default class Grid extends React.Component {
                             animateYearScrolling
                         />
                     </MuiPickersUtilsProvider>
-<button onClick={this.filterData}>filter</button>
+<button onClick={this.filterData}>filter</button> */}
                     {/* <div>
                     {rowData
                         // .filter(item =>
@@ -190,23 +214,54 @@ export default class Grid extends React.Component {
                         ))        
                     }
                     </div> */}
-                    <AgGridReact
-                        lightTheme={lightTheme}
-                        // rowData={this.state.dateFilteredData}
-                        rowData={this.state.filtered ? this.state.filterData : rowData}
-                        columnDefs={columnDefs}
-                        enableSorting={true}
-                        filter={true}
-                        pagination={true}
-                        paginationPageSize={10}
-                        colResizeDefault='shift'
-                        onGridReady={this.onGridReady}
-                        // isExternalFilterPresent={this.isExternalFilterPresent}
-                        // doesExternalFilterPass={this.doesExternalFilterPass}
-                    ></AgGridReact>
-
+                        
+                    {/* { !this.state.infoModalOpen ? null :
+                    
+                    <>
+                        <button onClick={this.handleInfoModal}>Close</button>
+                        <br />
+                        <CarrierInfo /> 
+                    </>
+                    // <h1>HI</h1>
+                    } */}
+                    
+                    
+                    
+                    {/* <CarrierInfo /> */}
+                    {/* <div
+                        style={{
+                            zIndex: 2,
+                            backgroundColor: `${this.state.infoModalOpen ? 'rgba(0,0,0,0.5)' : 'none' }` 
+                        }}
+                    > */}
+                        <AgGridReact
+                            lightTheme={lightTheme}
+                            // rowData={this.state.dateFilteredData}
+                            rowData={rowData}
+                            columnDefs={columnDefs}
+                            enableSorting={true}
+                            filter={true}
+                            pagination={true}
+                            paginationPageSize={10}
+                            colResizeDefault='shift'
+                            onGridReady={this.onGridReady}
+                            onCellClicked={this.handleInfoModal}
+                            // isExternalFilterPresent={this.isExternalFilterPresent}
+                            // doesExternalFilterPass={this.doesExternalFilterPass}
+                        ></AgGridReact>
+                    {/* </div> */}
                 </div>
             </div>
         )
     }
 };
+
+
+function CarrierInfo(props) {
+    return (
+        <div className="carrier-container">
+            
+            <h1>{props.weight}</h1>
+        </div>
+    )
+}

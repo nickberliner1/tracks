@@ -1,7 +1,14 @@
 .ag-root-wrapper {
     border-radius: 15px;
+    
 }
 
 .MuiInput-formControl {
     margin-bottom: 20px;
+}
+
+.grid-container {
+    height: 50vh;
+    width: 60vw;
+    
 }
